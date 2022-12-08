@@ -100,7 +100,8 @@ async function userCredentials() {
             const cashWithdraw= await inquirer.prompt([{
                 type:"number",
                 name:"Cash_withdraw",
-                message:"please enter amount to withdraw"
+                message:"please enter amount to withdraw",
+                validate:cashValidator
             }]);
             let withdraw:number=cashWithdraw.Cash_withdraw
             if(withdraw>userBalanceRandomly){
@@ -168,3 +169,23 @@ function userPswdValidator(input:number):string | boolean {
     return true         
     
 } 
+
+// cash withdraw validator
+function cashValidator(input:number):string|boolean{
+    // let checkinput:string=input.toString()
+    if(isNaN(input)||(input<1000)||(input>1000000)){
+        if(isNaN(input)){
+            const error:string=chalk.red(`please Enter Number only`);
+            return error
+        }
+        else if(input<1000){
+            const error:string=chalk.red(`Please Enter atleast 1000 Rs`);
+            return error
+        }
+        else{
+            const error:string=chalk.red(`Amount more than 10,000,00 is not allowed`);
+            return error
+        }
+    }
+    return true
+}
